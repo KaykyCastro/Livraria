@@ -2,6 +2,8 @@ package livraria.models.cliente;
 
 import livraria.collection.clientes.ListaClientes;
 import livraria.collection.livros.ListaLivros;
+import livraria.exceptions.LivroNaoExisteException;
+import livraria.models.livros.Livro;
 
 public class Cliente {
     private String nome;
@@ -48,7 +50,12 @@ public class Cliente {
         return livrosAlugados;
     }
 
-    public void setLivrosAlugados(ListaLivros livrosAlugados) {
-        this.livrosAlugados = livrosAlugados;
+    public void setLivrosAlugados(Livro livrosAlugar) {
+        this.livrosAlugados.cadastrarLivro(livrosAlugar);
     }
+
+    public void devolucao(Livro livroDevolucao)throws LivroNaoExisteException {
+        this.livrosAlugados.removerLivro(livroDevolucao.getCode());
+    }
+
 }

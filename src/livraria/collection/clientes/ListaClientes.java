@@ -1,5 +1,6 @@
 package livraria.collection.clientes;
 
+import livraria.exceptions.ClienteJaExisteException;
 import livraria.exceptions.ClienteNaoExisteException;
 import livraria.models.cliente.Cliente;
 
@@ -11,8 +12,13 @@ public class ListaClientes implements ClienteCollection{
     public List<Cliente> clientes = new ArrayList<Cliente>();
 
     @Override
-    public void cadastrarCliente(Cliente cliente) {
-
+    public void cadastrarCliente(Cliente cliente)throws ClienteJaExisteException {
+        try {
+            getCliente(cliente.getCpf());
+            throw new ClienteJaExisteException(cliente.getCpf());
+        } catch (ClienteNaoExisteException e){
+            clientes.add(cliente);
+        }
     }
 
     @Override
@@ -20,11 +26,9 @@ public class ListaClientes implements ClienteCollection{
         for(Cliente cliente: clientes){
             if(cliente.getCpf().equals(cpf)){
                 return cliente;
-            } else {
-                throw new ClienteNaoExisteException(cpf);
             }
         }
-        return null;
+        throw new ClienteNaoExisteException(cpf);
     }
 
     @Override
@@ -42,6 +46,6 @@ public class ListaClientes implements ClienteCollection{
 
     @Override
     public List<Cliente> listarClientes() {
-        return List.of();
+        return clientes;
     }
 }

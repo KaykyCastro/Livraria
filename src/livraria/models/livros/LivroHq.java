@@ -3,7 +3,7 @@ package livraria.models.livros;
 import java.util.Calendar;
 
 public class LivroHq extends Livro{
-    public LivroHq(String name, int code, String descricao, String genero, String autor, Status status, Calendar dataDevolucao) {
-        super(name, code, descricao, genero, autor, status, dataDevolucao);
+    public LivroHq(String name, String code, String descricao, Enum genero, String autor) {
+        super(name, code, descricao, genero, autor);
     }
 }

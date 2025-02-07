@@ -9,6 +9,7 @@ import livraria.models.livros.Livro;
 import livraria.models.livros.LivroTecnico;
 import livraria.models.livros.Status;
 
+import java.util.Calendar;
 import java.util.List;
 
 public interface LivroCollection {
@@ -16,12 +17,12 @@ public interface LivroCollection {
     public Livro getLivro(String code) throws LivroNaoExisteException;
     public void cadastrarLivro(Livro livro);
     public void removerLivro(String code) throws LivroNaoExisteException;
-    public void editarLivro(String code, String nome, String desc, String genero, String autor, Status status)throws LivroNaoExisteException;
+    public void editarLivro(String code, String nome, String desc, Enum genero, String autor, Status status)throws LivroNaoExisteException;
     public void alugarLivro(ListaClientes clientes, String cpf, String code)throws ClienteNaoExisteException, LivroNaoExisteException;
     public void devolucao(ListaClientes clientes, String cpf, String code)throws ClienteNaoExisteException, LivroNaoExisteException;
-    public List<Livro> listarLivrosDisponiveis();
-    public List<Livro> listarLivrosDisponiveisPorGenero(String genero);
-    public List<Livro> listarLivrosAlugados();
-    public List<Livro> listarTodosOsLivros();
+    public Livro[] listarLivrosDisponiveis();
+    public Livro[] listarLivrosDisponiveisPorGenero(String genero);
+    public Livro[] listarLivrosAlugados();
+    public Livro[] listarTodosOsLivros();
 
 }

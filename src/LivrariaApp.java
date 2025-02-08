@@ -30,16 +30,16 @@ public class LivrariaApp {
         try {
             // 1. Cadastrando o cliente
             managerClientes.cadastrarCliente(c1);
-            // Verificando se o cliente foi cadastrado corretamente (não será lançado erro de exceção)
+            System.out.println("Cliente cadastrado com sucesso: " + c1);
 
             // 2. Cadastrando livros na biblioteca
             managerLivros.cadastrarLivro(cosmos);
             managerLivros.cadastrarLivro(homemAranha);
-            // Verificando se os livros foram cadastrados corretamente na biblioteca
+            System.out.println("Livros cadastrados com sucesso!");
 
             // 3. Alugando um livro para o cliente
             managerLivros.alugarLivro(managerClientes, "123", "123"); // Cliente "123" aluga o livro com código "123" (Cosmos)
-            // Neste ponto, o livro "Cosmos" deve ser removido da lista de disponíveis e adicionado aos livros alugados do cliente
+            System.out.println("Livro 'Cosmos' alugado para o cliente.");
 
             // 4. Verificando se o cliente possui multa
             System.out.println("Multa do cliente antes da devolução: " + c1.gerarMulta());
@@ -53,7 +53,7 @@ public class LivrariaApp {
 
             // 6. Devolvendo um livro (no caso, o "Cosmos")
             managerLivros.devolucao(managerClientes, "123", "123"); // O livro "Cosmos" é devolvido
-            // Após a devolução, o livro deve ser movido para a lista de disponíveis novamente
+            System.out.println("Livro 'Cosmos' devolvido com sucesso.");
 
             // Exibindo a separação entre as etapas
             System.out.println("------------------------------");

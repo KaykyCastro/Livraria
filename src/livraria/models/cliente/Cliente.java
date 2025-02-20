@@ -14,8 +14,6 @@ public class Cliente {
     private double multa;
     private ListaLivros livrosAlugados;
 
-    public static final double valorMulta = 1;
-
     public Cliente(String nome, String cpf, String endereco){
         this.nome = nome;
         this.cpf = cpf;
@@ -79,86 +77,20 @@ public class Cliente {
     }
 
     /**
-     * Gera a multa total o cliente com base em todos os livros.
-     *
-     * @return multa , multa total no qual pertence ao cliente instanciado.
-     * **/
-    public double gerarMulta(){
-        int diasAtraso = 0;
-        Calendar dataAtual = Cliente.oBterDataAtual();
-        for(Livro livro : livrosAlugados.listarTodosOsLivros()){
-            if(livro.getDataDevolucao().before(dataAtual)){
-               long diffMillis = dataAtual.getTimeInMillis() - livro.getDataDevolucao().getTimeInMillis();
-               diasAtraso = (int) (diffMillis/ (1000 * 60 * 60 * 24));
-            }
-        }
-
-        double valorMulta = diasAtraso * 1;
-
-        return valorMulta;
-    }
-
-    /**
      * Adiciona uma multa ao Cliente.
      *
      * @param (multa) , multa no qual sera adicionado ao cliente instanciado.
      * **/
     public void setMulta(double multa) {
-        this.multa = multa;
+        this.multa += multa;
     }
 
-    /**
-     * Retorna um Livro alugado pelo codigo do livro.
-     *
-     * @return livro , livro no qual pertence a lista de livros alugados do cliente.
-     * **/
-    public Livro getLivroAlugadoPorCodigo(String code) throws LivroNaoExisteException {
-        Livro livroAlugado = livrosAlugados.getLivro(code);
-        return livroAlugado;
+    public void removerValorMulta(double valor){
+        this.multa -= valor;
     }
 
-    /**
-     * Retorna todos os Livro alugado do cliente.
-     *
-     * @return Array , Array no qual contem a lista de livros alugados do cliente.
-     * **/
-    public Livro[] getLivrosAlugados() {
-        return livrosAlugados.listarLivrosAlugados();
-    }
-
-    /**
-     * Adiciona um livro na lista livros alugados.
-     *
-     * @param (livroAlugar) , livroAlugar é o livro a ser cadastrado.
-     * **/
-    public void setLivrosAlugados(Livro livroAlugar) {
-        livroAlugar.setStatus(Status.ALUGADO);
-
-        Calendar dataDevolucao = Calendar.getInstance();
-        dataDevolucao.add(Calendar.DAY_OF_MONTH, 7);
-        livroAlugar.setDataDevolucao(dataDevolucao);
-        this.livrosAlugados.cadastrarLivro(livroAlugar);
-    }
-
-    /**
-     * Remove um livro da lista de livros alugados do cliente e remove a multa que o livro
-     * contem.
-     *
-     * @param (livroDevolucao) , livroDevolucao e o livro a ser removido da lista de livros alugados.
-     * **/
-    public void devolucao(Livro livroDevolucao)throws LivroNaoExisteException {
-        livroDevolucao.setStatus(Status.DISPONIVEL);
-        Calendar dataAtual = Cliente.oBterDataAtual();
-        Livro livrogeraMulta = livrosAlugados.getLivro(livroDevolucao.getCode());
-
-        if(livrogeraMulta.getDataDevolucao().before(dataAtual)){
-            long diffMillis = dataAtual.getTimeInMillis() - livrogeraMulta.getDataDevolucao().getTimeInMillis();
-            int diasAtraso = (int) (diffMillis/ (1000 * 60 * 60 * 24));
-            this.multa -= diasAtraso * valorMulta;
-        }
-
-        livroDevolucao.setDataDevolucao(null);
-        this.livrosAlugados.removerLivro(livroDevolucao.getCode());
+    public double getMulta(){
+        return this.multa;
     }
 
     @Override

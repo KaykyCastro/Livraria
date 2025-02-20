@@ -1,5 +1,6 @@
 package livraria.collection.livros;
 
+import livraria.collection.alugueis.ListaAlugueis;
 import livraria.collection.clientes.ListaClientes;
 import livraria.exceptions.ClienteJaExisteException;
 import livraria.exceptions.ClienteNaoExisteException;
@@ -17,12 +18,11 @@ public interface LivroCollection {
     public Livro getLivro(String code) throws LivroNaoExisteException;
     public void cadastrarLivro(Livro livro);
     public void removerLivro(String code) throws LivroNaoExisteException;
-    public void editarLivro(String code, String nome, String desc, Enum genero, String autor, Status status)throws LivroNaoExisteException;
-    public void alugarLivro(ListaClientes clientes, String cpf, String code)throws ClienteNaoExisteException, LivroNaoExisteException;
-    public void devolucao(ListaClientes clientes, String cpf, String code)throws ClienteNaoExisteException, LivroNaoExisteException;
+    public void alugarLivro(String code)throws ClienteNaoExisteException, LivroNaoExisteException;
+    public void devolucao(Livro livro);
     public Livro[] listarLivrosDisponiveis();
     public Livro[] listarLivrosDisponiveisPorGenero(String genero);
-    public Livro[] listarLivrosAlugados();
-    public Livro[] listarTodosOsLivros();
+    public Livro[] listarLivrosAlugados(ListaAlugueis alugueis);
+    public Livro[] listarTodosOsLivros(ListaAlugueis alugueis);
 
 }

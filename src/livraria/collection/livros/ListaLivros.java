@@ -1,5 +1,6 @@
 package livraria.collection.livros;
 
+import livraria.collection.alugueis.ListaAlugueis;
 import livraria.collection.clientes.ListaClientes;
 import livraria.exceptions.LivroNaoExisteException;
 import livraria.exceptions.ClienteNaoExisteException;
@@ -49,21 +50,6 @@ public class ListaLivros implements LivroCollection{
         livros.remove(livroRemover);
     }
 
-    @Override
-    /**
-     * Edita os dados de uma livro cadastrado.
-     *
-     * @param (code,data) , codigo do livro a ser editado e os dados novo, respectivamente.
-     * **/
-    public void editarLivro(String code, String nome, String desc, Enum genero, String autor, Status status) throws LivroNaoExisteException{
-        Livro livroEditar = getLivro(code);
-
-        livroEditar.setName(nome);
-        livroEditar.setDescricao(desc);
-        livroEditar.setGenero(genero);
-        livroEditar.setAutor(autor);
-        livroEditar.setStatus(status);
-    }
 
     @Override
     /**
@@ -73,13 +59,9 @@ public class ListaLivros implements LivroCollection{
      * @param (clientes, cpf, code) , clientes é a lista de clientes da livraria, cpf é o cpf
      *do cliente que alugara, e code o codigo do livro a ser alugado, respectivamente.
      * **/
-    public void alugarLivro(ListaClientes clientes, String cpf, String code) throws ClienteNaoExisteException, LivroNaoExisteException {
-            Cliente clienteAlugar = clientes.getCliente(cpf);
+    public void alugarLivro(String code) throws ClienteNaoExisteException, LivroNaoExisteException {
             Livro livroAlugar = getLivro(code);
-
-            clienteAlugar.setLivrosAlugados(livroAlugar);
             livros.remove(livroAlugar);
-
     }
 
     @Override
@@ -90,20 +72,8 @@ public class ListaLivros implements LivroCollection{
      * @param (clientes, cpf, code) , lientes é a lista de clientes da livraria, cpf é o cpf
      * do cliente que alugara, e code o codigo do livro a ser alugado, respectivamente.
      * **/
-    public void devolucao(ListaClientes clientes, String cpf, String code) throws ClienteNaoExisteException, LivroNaoExisteException {
-        try {
-            Cliente clienteDevolucao = clientes.getCliente(cpf);
-            Livro livroDevolucao = clienteDevolucao.getLivroAlugadoPorCodigo(code);
-            livroDevolucao.setStatus(Status.DISPONIVEL);
-
-            clienteDevolucao.devolucao(livroDevolucao);
-            livros.add(livroDevolucao);
-
-        } catch (ClienteNaoExisteException e){
-            System.out.println(e);
-        } catch (LivroNaoExisteException e){
-            System.out.println(e);
-        }
+    public void devolucao(Livro livro){
+            livros.add(livro);
     }
 
     @Override
@@ -147,9 +117,9 @@ public class ListaLivros implements LivroCollection{
      *
      * @return Array , Array no qual cotem todos os livros alugados.
      * **/
-    public Livro[] listarLivrosAlugados() {
+    public Livro[] listarLivrosAlugados(ListaAlugueis alugueis) {
         List<Livro> livrosAlugados = new ArrayList<Livro>();
-        for (Livro livro : livros){
+        for (Livro livro : alugueis.listarTodosOsLivros()){
             if(livro.getStatus().equals(Status.ALUGADO)){
                 livrosAlugados.add(livro);
             }
@@ -164,8 +134,9 @@ public class ListaLivros implements LivroCollection{
      *
      * @return Array , Array no qual cotem todos os livros diponiveis e alugados.
      * **/
-    public Livro[] listarTodosOsLivros() {
-        Livro[] retorno = new Livro[livros.size()];
-        return livros.toArray(retorno);
+    public Livro[] listarTodosOsLivros(ListaAlugueis alugueis) {
+        List<Livro> livrosAlugado = new ArrayList<Livro>(livros);
+        livrosAlugado.addAll(alugueis.livrosAlugados);
+        return livrosAlugado.toArray(new Livro[0]);
     }
 }

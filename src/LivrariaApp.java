@@ -1,79 +1,70 @@
-import java.util.Calendar;
-import java.util.Collections;
-
-import livraria.collection.clientes.ClienteCollection;
+import livraria.collection.alugueis.ListaAlugueis;
 import livraria.collection.clientes.ListaClientes;
-import livraria.collection.livros.LivroCollection;
 import livraria.collection.livros.ListaLivros;
 import livraria.exceptions.ClienteJaExisteException;
 import livraria.exceptions.ClienteNaoExisteException;
 import livraria.exceptions.LivroNaoExisteException;
 import livraria.models.cliente.Cliente;
-import livraria.models.livros.*;
-import livraria.models.livros.generos.*;
-import livraria.models.livros.Status;
+import livraria.models.livros.Livro;
+import livraria.models.livros.generos.Hq;
+import livraria.models.livros.generos.NaoFiccao;
+import livraria.models.livros.LivroFiccao;
+import livraria.models.livros.LivroHq;
 
 public class LivrariaApp {
 
     public static void main(String[] args) {
-        // Criando os gerenciadores de clientes e livros, responsáveis por controlar as funcionalidades
-        ListaClientes managerClientes = new ListaClientes(); // Gerencia a lista de clientes e suas operações
-        ListaLivros managerLivros = new ListaLivros(); // Gerencia a lista de livros e suas operações
+        // Gerenciadores
+        ListaClientes managerClientes = new ListaClientes();
+        ListaLivros managerLivros = new ListaLivros();
+        ListaAlugueis managerAlugueis = new ListaAlugueis();
 
-        // Criando livros de diferentes tipos para demonstrar a funcionalidade
+        // Criando livros
         LivroFiccao cosmos = new LivroFiccao("Cosmos", "123", "Livro sobre o universo", NaoFiccao.CIENCIA, "Carl Sagan");
         LivroHq homemAranha = new LivroHq("Homem Aranha", "124", "História do herói", Hq.SUPER_HEROIS, "Marvel");
 
-        // Criando um cliente para testar as funcionalidades
+        // Criando cliente
         Cliente c1 = new Cliente("Cliente 1", "123", "Rua Belo");
 
         try {
             // 1. Cadastrando o cliente
             managerClientes.cadastrarCliente(c1);
-            System.out.println("Cliente cadastrado com sucesso: " + c1);
+            System.out.println("Cliente cadastrado: " + c1);
 
-            // 2. Cadastrando livros na biblioteca
+            // 2. Cadastrando livros
             managerLivros.cadastrarLivro(cosmos);
             managerLivros.cadastrarLivro(homemAranha);
             System.out.println("Livros cadastrados com sucesso!");
 
-            // 3. Alugando um livro para o cliente
-            managerLivros.alugarLivro(managerClientes, "123", "123"); // Cliente "123" aluga o livro com código "123" (Cosmos)
+            // 3. Alugando um livro via `managerAlugueis`
+            managerAlugueis.alugarLivro(managerClientes, managerLivros, "123", "123");
             System.out.println("Livro 'Cosmos' alugado para o cliente.");
 
-            // 4. Verificando se o cliente possui multa
-            System.out.println("Multa do cliente antes da devolução: " + c1.gerarMulta());
-            // A multa será calculada, mas provavelmente será 0, pois o cliente ainda não devolveu o livro
+            // 4. Exibir multa antes da devolução
+            System.out.println("Multa do cliente antes da devolução: " + managerAlugueis.gerarMulta());
 
-            // 5. Listando os livros alugados pelo cliente
+            // 5. Listar livros alugados pelo cliente
             System.out.println("Livros alugados pelo cliente:");
-            for (Livro livro : managerClientes.getCliente("123").getLivrosAlugados()) {
-                System.out.println(livro.toString()); // Deverá listar o livro "Cosmos"
+            for (Livro livro : managerAlugueis.listarTodosOsLivros()) {
+                System.out.println(livro);
             }
 
-            // 6. Devolvendo um livro (no caso, o "Cosmos")
-            managerLivros.devolucao(managerClientes, "123", "123"); // O livro "Cosmos" é devolvido
+            // 6. Devolução do livro
+            managerLivros.devolucao(managerAlugueis.devolucao("123", "123"));
             System.out.println("Livro 'Cosmos' devolvido com sucesso.");
 
-            // Exibindo a separação entre as etapas
-            System.out.println("------------------------------");
-
-            // 7. Listando todos os livros disponíveis após a devolução
-            System.out.println("Livros disponíveis na biblioteca:");
+            // 7. Listando livros disponíveis na biblioteca após a devolução
+            System.out.println("\nLivros disponíveis na biblioteca:");
             for (Livro livro : managerLivros.listarLivrosDisponiveis()) {
-                System.out.println(livro.toString()); // Deverá listar "Cosmos" (devolvido) e outros livros disponíveis
+                System.out.println(livro);
             }
 
-            // Tratando as exceções para garantir que os erros sejam tratados corretamente:
         } catch (ClienteJaExisteException e) {
-            // Exibindo mensagem de erro caso o cliente já exista
-            System.out.println("Erro: Cliente já cadastrado - " + e);
-        } catch (LivroNaoExisteException e){
-            // Exibindo mensagem de erro caso o livro não exista
-            System.out.println("Erro: Livro não encontrado - " + e);
-        } catch (ClienteNaoExisteException e){
-            // Exibindo mensagem de erro caso o cliente não exista
-            System.out.println("Erro: Cliente não encontrado - " + e);
+            System.out.println("Erro: Cliente já cadastrado - " + e.getMessage());
+        } catch (LivroNaoExisteException e) {
+            System.out.println("Erro: Livro não encontrado - " + e.getMessage());
+        } catch (ClienteNaoExisteException e) {
+            System.out.println("Erro: Cliente não encontrado - " + e.getMessage());
         }
     }
 }

@@ -1,0 +1,72 @@
+package views.InterfaceDetalhes;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import views.InterfaceDetalhes.InformaçõesCliente.ContainerInformaçoes;
+import views.InterfaceDetalhes.InformaçõesCliente.Titulo;
+public class DetalhesCliente  extends JFrame {
+	
+	
+//	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException{
+//		for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//		    if ("Nimbus".equals(info.getName())) {
+//		        UIManager.setLookAndFeel(info.getClassName());
+//		        //System.out.println("CHOSEN THIS");
+//		        break;
+//		    }
+//		}
+            
+            
+            
+            
+            
+            
+            
+    
+	
+	public JFrame getFrame() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	    int screenWidth = screenSize.width;  // Largura da tela
+	    int screenHeight = screenSize.height;
+	   
+	    ContainerInformaçoes infor = new ContainerInformaçoes();
+		
+		
+		Titulo titulo = new Titulo();
+		DetalhesBotoes botoes = new DetalhesBotoes ();
+		
+	        //criando a janela de clientes
+		 JFrame detalhesClie = new JFrame();
+		detalhesClie.setBackground(Color.lightGray);
+		detalhesClie.setSize((int) Math.floor(screenWidth*0.3), (int)Math.floor(screenHeight*0.65));
+	        detalhesClie.setMinimumSize(new Dimension((int) Math.floor(screenWidth*0.3), (int)Math.floor(screenHeight*0.5)));
+	        detalhesClie.setLocationRelativeTo(null);
+		detalhesClie.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        // também coloquei uma parte da do monitor como referência aqui
+	        //um tamo minimo também foi adicionado para não ter deformações
+		
+		
+		
+		JPanel container = new JPanel();
+		container.setLayout(new BorderLayout());
+		container.setBorder(BorderFactory.createEmptyBorder( (int) Math.ceil(screenHeight*0.008), (int) Math.ceil(screenWidth *0.008), (int) Math.ceil(screenHeight*0.008), (int) Math.ceil(screenWidth*0.008)));
+		container.setBackground(Color.lightGray);
+		
+		container.add(titulo.getPanel(),BorderLayout.NORTH);
+		container.add(infor.getPanel(),BorderLayout.CENTER);
+		container.add(botoes.getPanelClientes(),BorderLayout.SOUTH);
+		
+		detalhesClie.add(container);
+		detalhesClie.setVisible(true);
+		return detalhesClie;
+		
+	}
+}

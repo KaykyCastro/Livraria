@@ -2,11 +2,11 @@ package model;
 
 public class Book {
     private String name;
-    private int code;
+    private String code;
     private String author;
     private Category category;
 
-    public Book(String name, int code, String author, Category category) {
+    public Book(String name, String code, String author, Category category) {
         this.name = name;
         this.code = code;
         this.author = author;
@@ -21,11 +21,11 @@ public class Book {
         this.name = name;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

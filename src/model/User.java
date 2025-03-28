@@ -5,6 +5,12 @@ public class User {
     private String cpf;
     private String address;
 
+    public User(String name, String cpf, String address){
+        this.name = name;
+        this.cpf = cpf;
+        this.address = address;
+    }
+
     public String getName() {
         return this.name;
     }

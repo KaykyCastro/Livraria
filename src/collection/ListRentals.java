@@ -12,20 +12,5 @@ import java.util.List;
 public class ListRentals implements RentalsCollection {
 
     private List<Rent> rents;
-
-
-    @Override
-    public Book getBook(String code) throws BookNotExistException {
-        return null;
-    }
-
-    @Override
-    public User getUser(String cpf) throws UserNotExistException {
-        return null;
-    }
-
-    @Override
-    public double generateFine() {
-        return 0;
-    }
+    //Need create Override Methods;
 }

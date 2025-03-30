@@ -8,9 +8,10 @@ import model.Rent;
 import model.User;
 
 public interface RentalsCollection {
-    public Book getBook(String code)throws BookNotExistException;
-    public User getUser(String cpf)throws UserNotExistException;
+    public Book getBook(String code) throws BookNotExistException;
+    public User getUser(String cpf) throws UserNotExistException;
     public void setRent(Rent rent);
-    public void getRent(String cpf, String code)throws RentNotExistException;
-    public double generateFine();
+    public Rent getRent(String cpf, String code) throws RentNotExistException;
+    public void removeRent(String cpf, String code) throws RentNotExistException;
+    public double getFine(String cpf, String code) throws RentNotExistException;
 }

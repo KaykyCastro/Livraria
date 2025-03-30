@@ -9,17 +9,18 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Rent {
     private User rentUser;
     private Book rentBook;
-    private LocalDateTime rentDay;
-    private LocalDateTime returnDay;
+    private final LocalDateTime rentDay;
+    private final LocalDateTime returnDay;
     private double fine;
     private static final double FINE_AMOUNT = 5;
     private final ScheduledExecutorService schedule = Executors.newScheduledThreadPool(1);
 
-    public Rent(User userToRente, Book bookToRent){
-        this.rentUser = userToRente;
+    public Rent(User userToRent, Book bookToRent){
+        this.rentUser = userToRent;
         this.rentBook = bookToRent;
         this.rentDay = LocalDateTime.now();
         this.returnDay = rentDay.plusDays(7);
+        this.fine = 0.0;
     }
 
     public User getRentUser() {

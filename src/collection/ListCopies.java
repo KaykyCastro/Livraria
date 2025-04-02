@@ -2,17 +2,23 @@ package collection;
 
 import exception.BookNotExistException;
 import exception.UnableDeleteBookException;
+import interfaces.CopiesCollection;
 import model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListCopies {
+public class ListCopies implements CopiesCollection {
     List<Book> books;
 
     public ListCopies(Book firstCopie){
         this.books = new ArrayList<Book>();
         this.books.add(firstCopie);
+    }
+
+    @Override
+    public Book getFirstCopie() {
+        return books.getFirst();
     }
 
     public Book getBookInCopies(String code) throws BookNotExistException {
@@ -37,6 +43,10 @@ public class ListCopies {
                 this.books.add(copie);
             }
         }
+    }
+
+    public void addBookInCopies(Book book){
+        this.books.add(book);
     }
 
     public void removeBookInCopies(String code)throws BookNotExistException, UnableDeleteBookException {

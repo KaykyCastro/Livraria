@@ -13,6 +13,13 @@ public class Book {
         this.category = category;
     }
 
+    public Book(String code, Book book){
+        this.name = book.getName();
+        this.code = code;
+        this.author = book.getAuthor();
+        this.category = book.getCategory();
+    }
+
     public String getName() {
         return this.name;
     }

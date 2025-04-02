@@ -5,6 +5,7 @@ import exception.CodeAlreadyExistsException;
 import model.Book;
 
 public interface CopiesCollection {
+    public Book getFirstCopie();
     public Book getBookInCopies(String code) throws BookNotExistException;
     public void addBookInCopies(String code) throws CodeAlreadyExistsException;
     public void removeBookInCopies(String code) throws BookNotExistException;

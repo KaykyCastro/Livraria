@@ -9,5 +9,11 @@ public class Main {
         ListBook bookManager = new ListBook();
         ListRentals rentalsManager = new ListRentals();
 
+        int opc = 0;
+
+        while (opc != 9){
+
+        }
+
     }
 }

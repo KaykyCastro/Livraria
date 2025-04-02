@@ -1,15 +1,16 @@
-package model;
+package collection;
 
 import exception.BookNotExistException;
 import exception.UnableDeleteBookException;
+import model.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Copies {
+public class ListCopies {
     List<Book> books;
 
-    public Copies(Book firstCopie){
+    public ListCopies(Book firstCopie){
         this.books = new ArrayList<Book>();
         this.books.add(firstCopie);
     }
@@ -26,6 +27,9 @@ public class Copies {
     }
 
     public void addBookInCopies(String code){
+        //Need fix addBookInCopies method, this way are not good, why i can get the data
+        //in firstCopie
+
         if(!this.books.isEmpty()) {
             if (this.books.get(0) != null) {
                 Book original = this.books.get(0);
@@ -36,12 +40,12 @@ public class Copies {
     }
 
     public void removeBookInCopies(String code)throws BookNotExistException, UnableDeleteBookException {
-            Book bookForDelete = getBookInCopies(code);
-            if (this.books.remove(bookForDelete)){
-                System.out.println("Removed successfully!");
-            } else {
-                throw new UnableDeleteBookException();
-            }
+      //Fix this
+        Book bookForDelete = getBookInCopies(code);
+        if (this.books.remove(bookForDelete)){
+            System.out.println("Removed successfully!");
+        } else {
+            throw new UnableDeleteBookException();
         }
-
+    }
 }

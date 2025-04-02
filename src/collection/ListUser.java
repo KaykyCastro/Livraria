@@ -4,11 +4,16 @@ import exception.UserNotExistException;
 import interfaces.UserCollection;
 import model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListUser implements UserCollection {
 
     private List<User> users;
+
+    public ListUser() {
+        this.users = new ArrayList<User>();
+    }
 
     @Override
     public void addUser(User user) {

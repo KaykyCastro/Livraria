@@ -8,11 +8,16 @@ import model.Book;
 import model.Rent;
 import model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListRentals implements RentalsCollection {
 
     private List<Rent> rents;
+
+    public ListRentals(){
+        this.rents = new ArrayList<Rent>();
+    }
 
     @Override
     public Book getBook(String code) throws BookNotExistException {

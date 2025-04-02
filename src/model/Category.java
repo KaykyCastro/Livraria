@@ -1,5 +1,7 @@
 package model;
 
+import enums.Gender;
+
 public class Category {
 
     private String name;

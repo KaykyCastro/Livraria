@@ -1,16 +1,20 @@
 package model;
 
+import enums.Status;
+
 public class Book {
     private String name;
     private String code;
     private String author;
     private Category category;
+    private Status status;
 
     public Book(String name, String code, String author, Category category) {
         this.name = name;
         this.code = code;
         this.author = author;
         this.category = category;
+        this.status = Status.AVAILABLE;
     }
 
     public Book(String code, Book book){
@@ -21,7 +25,7 @@ public class Book {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -29,7 +33,7 @@ public class Book {
     }
 
     public String getCode() {
-        return this.code;
+        return code;
     }
 
     public void setCode(String code) {
@@ -37,7 +41,7 @@ public class Book {
     }
 
     public String getAuthor() {
-        return this.author;
+        return author;
     }
 
     public void setAuthor(String author) {
@@ -45,10 +49,18 @@ public class Book {
     }
 
     public Category getCategory() {
-        return this.category;
+        return category;
     }
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

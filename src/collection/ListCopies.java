@@ -1,7 +1,6 @@
 package collection;
 
 import exception.BookNotExistException;
-import exception.UnableDeleteBookException;
 import interfaces.CopiesCollection;
 import model.Book;
 
@@ -9,11 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListCopies implements CopiesCollection {
-    List<Book> books;
+    private String idCopie;
+    private List<Book> books;
+    private int quantityOfCopies;
 
-    public ListCopies(Book firstCopie){
+    public ListCopies(String idCopie, Book firstCopie){
+        this.idCopie = idCopie;
         this.books = new ArrayList<Book>();
         this.books.add(firstCopie);
+        this.quantityOfCopies = 1;
     }
 
     @Override
@@ -32,15 +35,23 @@ public class ListCopies implements CopiesCollection {
         throw new BookNotExistException();
     }
 
-    public void addBookInCopies(String code){
-        //Need fix addBookInCopies method, this way are not good, why i can get the data
-        //in firstCopie
+    @Override
+    public int getQuantityOfCopies(){
+        return quantityOfCopies;
+    };
 
+    @Override
+    public List<Book> getAllBooks(){
+        return books;
+    };
+
+    public void addBookInCopies(String code){
         if(!this.books.isEmpty()) {
-            if (this.books.get(0) != null) {
-                Book original = this.books.get(0);
+            if (this.books.getFirst() != null) {
+                Book original = this.books.getFirst();
                 Book copie = new Book(original.getName(), code, original.getAuthor(), original.getCategory());
                 this.books.add(copie);
+                this.quantityOfCopies += 1;
             }
         }
     }
@@ -49,13 +60,8 @@ public class ListCopies implements CopiesCollection {
         this.books.add(book);
     }
 
-    public void removeBookInCopies(String code)throws BookNotExistException, UnableDeleteBookException {
-      //Fix this
+    public void removeBookInCopies(String code)throws BookNotExistException{
         Book bookForDelete = getBookInCopies(code);
-        if (this.books.remove(bookForDelete)){
-            System.out.println("Removed successfully!");
-        } else {
-            throw new UnableDeleteBookException();
-        }
+        this.books.remove(bookForDelete);
     }
 }

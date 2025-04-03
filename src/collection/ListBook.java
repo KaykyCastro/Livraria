@@ -2,8 +2,8 @@ package collection;
 
 import exception.BookNotExistException;
 import exception.CodeAlreadyExistsException;
+import exception.CopieDoesNotExistException;
 import interfaces.BookCollection;
-import interfaces.RentalsCollection;
 import model.Book;
 
 import java.util.ArrayList;
@@ -19,8 +19,7 @@ public class ListBook implements BookCollection {
     }
 
     @Override
-    public void addBook(String code, String name) throws CodeAlreadyExistsException {
-        //Need fix addBook method, implement scanner if book not exist in copies
+    public void addBookInCopie(String code, String name) throws CodeAlreadyExistsException, CopieDoesNotExistException {
         for(ListCopies copies : books){
             Book firstCopie = copies.getFirstCopie();
             String codeFirstCopie = copies.getFirstCopie().getCode();
@@ -34,12 +33,19 @@ public class ListBook implements BookCollection {
                     throw new CodeAlreadyExistsException(code);
                 }
         }
+        throw new CopieDoesNotExistException();
+    }
+
+    @Override
+    public void addNewListCopies(String idCopie, Book firstCopie){
+        ListCopies newCopies = new ListCopies(idCopie,firstCopie);
+        this.books.add(newCopies);
     }
 
     @Override
     public Book getBook(String code) throws BookNotExistException {
         for(ListCopies copies : this.books){
-            for(Book book : copies.books){
+            for(Book book : copies.getAllBooks()){
                 if(book.getCode().equals(code)){
                     return book;
                 }
@@ -48,10 +54,14 @@ public class ListBook implements BookCollection {
     }
 
     @Override
-    public void removeBooke(String code) throws BookNotExistException {
-        //Need fix the remove method
-       Book bookToRemove = getBook(code);
-       this.books.remove(bookToRemove);
+    public void removeBook(String code) throws BookNotExistException {
+       for(ListCopies copies : books){
+           if(copies.getQuantityOfCopies() != 1) {
+               copies.removeBookInCopies(code);
+           } else {
+               books.remove(copies);
+           }
+       }
     }
 
 
